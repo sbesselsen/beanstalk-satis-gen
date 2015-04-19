@@ -1,8 +1,8 @@
 {
     "name": "exed/beanstalk-satis-gen",
     "description": "Beanstalk Satis Generator",
-    "bin": ["bin/update"],
-    "version": "0.1.4",
+    "bin": ["bin/satis-update"],
+    "version": "0.1.5",
     "autoload": {
         "psr-4": {"BeanstalkSatisGen\\": "src/BeanstalkSatisGen/"}
     },

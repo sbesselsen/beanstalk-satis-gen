@@ -3,12 +3,12 @@ Beanstalk Satis Generator
 
 A simple tool that allows you to add repositories to a Satis JSON file by reading repositories from your Beanstalk account and adding all repositories that are Composer packages.
 
-You can use the tool by calling the included PHP classes directly, but the main use case is calling the included shell script `bin/update`.
+You can use the tool by calling the included PHP classes directly, but the main use case is calling the included shell script `bin/satis-update`.
 
 ## Usage example
 
 ```
-bin/update config.json satis.json
+bin/satis-update config.json satis.json
 ```
 
 **config.json:**
