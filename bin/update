@@ -1,7 +1,14 @@
 #!/usr/bin/env php
 <?php
-if (!class_exists('BeanstalkSatisGen\Cli')) {
-  require_once __DIR__ . '/../vendor/autoload.php';
+$paths = [
+  __DIR__ . '/../vendor/autoload.php',
+  __DIR__ . '/../../../../vendor/autoload.php',
+];
+foreach ($paths as $path) {
+  if (file_exists($path)) {
+    require_once $path;
+    break;
+  }
 }
 
 $args = $_SERVER['argv'];
