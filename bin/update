@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+if (!class_exists('BeanstalkSatisGen\Cli')) {
+  require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+$args = $_SERVER['argv'];
+array_shift($args);
+
+$cli = new BeanstalkSatisGen\Cli(getcwd());
+$cli->update($args);
