@@ -1,8 +1,15 @@
 {
     "name": "exed/beanstalk-satis-gen",
     "bin": ["bin/run"],
-    "version": "0.1.0",
+    "version": "0.1.1",
     "autoload": {
         "psr-4": {"BeanstalkSatisGen\\": "src/BeanstalkSatisGen/"}
-    }
+    },
+    "authors": [
+      {
+        "name": "Sebastiaan Besselsen",
+        "email": "sebastiaan.besselsen@gmail.com"
+      }
+    ],
+    "license": "MIT"
 }
