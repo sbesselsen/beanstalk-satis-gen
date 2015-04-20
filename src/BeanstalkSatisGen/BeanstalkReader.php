@@ -95,7 +95,23 @@ class BeanstalkReader {
     if (empty ($data->name)) {
       return false;
     }
+
+    if (isset($data->type) && !$this->isAllowableComposerType($data->type)) {
+      return false;
+    }
+
     return true;
+  }
+
+  /**
+   * Whether or not this type should be parsed
+   *
+   * @param string $type
+   */
+  protected function isAllowableComposerType($type) {
+    $allowableTypes = array('library', 'wordpress-plugin', 'symfony-bundle');
+
+    return in_array($type, $allowableTypes);
   }
 
   /**
