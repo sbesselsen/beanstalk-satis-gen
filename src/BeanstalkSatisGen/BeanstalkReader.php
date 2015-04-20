@@ -97,24 +97,27 @@ class BeanstalkReader {
     }
     return true;
   }
-  
-  protected function mapGitRepositories($f) {
-    $page = 1;
-    $perPage = 50;
-    
-    while (true) {
-      $pageData = $this->loadAPIJson('repositories', array ('page' => $page, 'per_page' => $perPage));
-      $hasData = false;
-      foreach ($pageData as $item) {
-        if ($item->repository->vcs == 'git') {
-          $f($item->repository);
-        }
-        $hasData = true;
-      }
-      if (!$hasData) {
-        break;
-      }
-      $page++;
+
+  /**
+   * Call given function for all git repositories in beanstalk
+   *
+   * @param callable $callback
+   */
+  protected function mapGitRepositories($callback) {
+    $allRepositories = $this->loadAPIJson('repositories', array());
+
+    // Remove the inception from the beanstalk API
+    $allRepositories = array_map(function($repository) {
+      return $repository->repository;
+    }, $allRepositories);
+
+    // Remove all non-git repositories
+    $allRepositories = array_filter($allRepositories, function($repository) {
+      return 'git' === $repository->vcs;
+    });
+
+    foreach ($allRepositories as $repository) {
+      $callback($repository);
     }
   }
   
