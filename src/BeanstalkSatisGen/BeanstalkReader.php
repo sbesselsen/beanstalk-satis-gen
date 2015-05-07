@@ -109,7 +109,7 @@ class BeanstalkReader {
    * @param string $type
    */
   protected function isAllowableComposerType($type) {
-    $allowableTypes = array('library', 'wordpress-plugin', 'symfony-bundle');
+    $allowableTypes = array('library', 'wordpress-plugin', 'symfony-bundle', 'drupal-module');
 
     return in_array($type, $allowableTypes);
   }
