@@ -7,6 +7,6 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 $application = new \Symfony\Component\Console\Application('Beanstalk Satis Generator', '0.2.0');
 $application->addCommands(array(
-    new \BeanstalkSatisGen\Commands\UpdateCommand()
+    new \BeanstalkSatisGen\Commands\GenerateCommand()
 ));
 $application->run();

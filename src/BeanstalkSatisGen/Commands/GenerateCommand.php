@@ -7,19 +7,18 @@ use BeanstalkSatisGen\BeanstalkReader;
 use BeanstalkSatisGen\Config;
 use BeanstalkSatisGen\SatisFile;
 use BeanstalkSatisGen\Updater;
-use Psr\Log\NullLogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCommand extends Command
+class GenerateCommand extends Command
 {
 
     protected function configure()
     {
-        $this->setName('update')
+        $this->setName('generate')
             ->addArgument(
                 'config',
                 InputArgument::REQUIRED,
