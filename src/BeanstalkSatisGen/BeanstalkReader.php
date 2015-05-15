@@ -32,6 +32,8 @@ class BeanstalkReader
      * Create a BeanstalkReader with the specified configuration
      *
      * @param Config $config
+     * @param Api $beanstalkApi
+     * @param LoggerInterface $logger
      */
     public function __construct(Config $config, Api $beanstalkApi, LoggerInterface $logger)
     {
