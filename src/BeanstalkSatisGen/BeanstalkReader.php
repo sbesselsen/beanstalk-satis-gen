@@ -134,6 +134,8 @@ class BeanstalkReader
      * Whether or not this type should be parsed
      *
      * @param string $type
+     *
+     * @return boolean
      */
     protected function isAllowableComposerType($type)
     {
