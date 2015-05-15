@@ -1,18 +1,12 @@
 #!/usr/bin/env php
 <?php
-$paths = [
-  __DIR__ . '/../vendor/autoload.php',
-  __DIR__ . '/../../../../vendor/autoload.php',
-];
-foreach ($paths as $path) {
-  if (file_exists($path)) {
-    require_once $path;
-    break;
-  }
+
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once(__DIR__ . '/../vendor/autoload.php');
 }
 
-$args = $_SERVER['argv'];
-array_shift($args);
-
-$cli = new BeanstalkSatisGen\Cli(getcwd());
-$cli->update($args);
+$application = new \Symfony\Component\Console\Application('Beanstalk Satis Generator', '0.2.0');
+$application->addCommands(array(
+    new \BeanstalkSatisGen\Commands\UpdateCommand()
+));
+$application->run();
