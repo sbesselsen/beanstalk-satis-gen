@@ -62,7 +62,7 @@ class Api implements LoggerAwareInterface
             throw new ReaderException("No response from the server.");
         }
 
-        if (($output = @json_decode($data)) === null) {
+        if (($output = json_decode($data)) === null) {
             throw new ReaderException("Response from the server is not valid JSON.");
         }
 
