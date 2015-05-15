@@ -11,6 +11,7 @@ use Psr\Log\NullLogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends Command
@@ -32,10 +33,12 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = new ConsoleLogger($output);
+
         $config = Config::fromJSONFile($input->getArgument('config'));
         $satisFile = SatisFile::fromFile($input->getArgument('satis'));
 
-        $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, new NullLogger());
+        $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, $logger);
         $reader = new BeanstalkReader($config, $beanstalkApi);
 
         $updater = new Updater($config);

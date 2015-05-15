@@ -57,6 +57,8 @@ class Api implements LoggerAwareInterface
             $url .= '?' . http_build_query($query);
         }
 
+        $this->logger->debug('Calling: ' . $url);
+
         $data = @file_get_contents($url);
 
         if (!$data) {
