@@ -48,7 +48,8 @@ class Api implements LoggerAwareInterface
      *
      * @return mixed
      */
-    public function loadJson($path, array $query) {
+    public function loadJson($path, array $query)
+    {
         $auth = rawurlencode($this->username) . ':' . rawurlencode($this->token);
         $url = sprintf('https://%s@%s.beanstalkapp.com/api/%s.json', $auth, $this->subdomain, $path);
 
