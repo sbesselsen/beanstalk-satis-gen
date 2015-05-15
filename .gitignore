@@ -1,1 +1,4 @@
 vendor*
+
+.idea/workspace.xml
+.idea/tasks
