@@ -27,7 +27,7 @@ class BeanstalkReader
      *
      * @param Config $config
      */
-    function __construct(Config $config, Api $beanstalkApi)
+    public function __construct(Config $config, Api $beanstalkApi)
     {
         $this->config = $config;
         $this->beanstalkApi = $beanstalkApi;
@@ -42,7 +42,7 @@ class BeanstalkReader
      * @param callback $f
      * @param array    $options
      */
-    function mapComposerPackageURLs($f, array $options = [])
+    public function mapComposerPackageURLs($f, array $options = [])
     {
         $options += [
             self::OPT_EXCLUDE_URLS => [],
