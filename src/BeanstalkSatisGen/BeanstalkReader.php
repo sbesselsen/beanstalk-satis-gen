@@ -1,6 +1,9 @@
 <?php
 namespace BeanstalkSatisGen;
 
+use BeanstalkSatisGen\Beanstalk\Api;
+use Psr\Log\NullLogger;
+
 class ReaderException extends \RuntimeException
 {
 }
@@ -15,13 +18,19 @@ class BeanstalkReader
     protected $config;
 
     /**
+     * @var Api
+     */
+    protected $beanstalkApi;
+
+    /**
      * Create a BeanstalkReader with the specified configuration
      *
      * @param Config $config
      */
-    function __construct(Config $config)
+    function __construct(Config $config, Api $beanstalkApi)
     {
         $this->config = $config;
+        $this->beanstalkApi = $beanstalkApi;
     }
 
     /**
@@ -93,7 +102,7 @@ class BeanstalkReader
     protected function isComposerPackageRepository($repository)
     {
         try {
-            $composerNode = $this->loadAPIJson(
+            $composerNode = $this->beanstalkApi->loadJson(
                 "repositories/{$repository->id}/node",
                 array(
                     'path'     => 'composer.json',
@@ -145,7 +154,7 @@ class BeanstalkReader
      */
     protected function mapGitRepositories($callback)
     {
-        $allRepositories = $this->loadAPIJson('repositories', array());
+        $allRepositories = $this->beanstalkApi->loadJson('repositories', array());
 
         // Remove the inception from the beanstalk API
         $allRepositories = array_map(function ($repository) {
@@ -163,23 +172,5 @@ class BeanstalkReader
         foreach ($allRepositories as $repository) {
             $callback($repository);
         }
-    }
-
-    protected function loadAPIJson($path, array $query)
-    {
-        $auth = rawurlencode($this->config->username) . ':' . rawurlencode($this->config->token) . '@';
-        $url  = "https://{$auth}{$this->config->subdomain}.beanstalkapp.com/api/{$path}.json";
-        if ($query) {
-            $url .= '?' . http_build_query($query);
-        }
-        $data = @file_get_contents($url);
-        if (!$data) {
-            throw new ReaderException("No response from server");
-        }
-        if (($output = @json_decode($data)) === null) {
-            throw new ReaderException("Response from server is not valid JSON");
-        }
-
-        return $output;
     }
 }

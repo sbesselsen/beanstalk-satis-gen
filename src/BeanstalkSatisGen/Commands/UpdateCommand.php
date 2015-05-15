@@ -2,10 +2,12 @@
 
 namespace BeanstalkSatisGen\Commands;
 
+use BeanstalkSatisGen\Beanstalk\Api;
 use BeanstalkSatisGen\BeanstalkReader;
 use BeanstalkSatisGen\Config;
 use BeanstalkSatisGen\SatisFile;
 use BeanstalkSatisGen\Updater;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,7 +35,8 @@ class UpdateCommand extends Command
         $config = Config::fromJSONFile($input->getArgument('config'));
         $satisFile = SatisFile::fromFile($input->getArgument('satis'));
 
-        $reader = new BeanstalkReader($config);
+        $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, new NullLogger());
+        $reader = new BeanstalkReader($config, $beanstalkApi);
 
         $updater = new Updater($config);
         $updater->logFunction = function ($msg) {
