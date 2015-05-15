@@ -2,6 +2,7 @@
 namespace BeanstalkSatisGen;
 
 use BeanstalkSatisGen\Beanstalk\Api;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 class ReaderException extends \RuntimeException
@@ -23,14 +24,20 @@ class BeanstalkReader
     protected $beanstalkApi;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Create a BeanstalkReader with the specified configuration
      *
      * @param Config $config
      */
-    public function __construct(Config $config, Api $beanstalkApi)
+    public function __construct(Config $config, Api $beanstalkApi, LoggerInterface $logger)
     {
         $this->config = $config;
         $this->beanstalkApi = $beanstalkApi;
+        $this->logger = $logger;
     }
 
     /**
@@ -64,6 +71,7 @@ class BeanstalkReader
                 return;
             }
             if (!$this->isComposerPackageRepository($repository)) {
+                $this->logger->info(sprintf('%s is not a composer package repository.', $repository->name));
                 return;
             }
             $f($repository->repository_url);
@@ -156,6 +164,7 @@ class BeanstalkReader
      */
     protected function mapGitRepositories($callback)
     {
+        $this->logger->info('Loading all repository information');
         $allRepositories = $this->beanstalkApi->loadJson('repositories', array());
 
         // Remove the inception from the beanstalk API

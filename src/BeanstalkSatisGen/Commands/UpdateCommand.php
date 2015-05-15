@@ -39,7 +39,7 @@ class UpdateCommand extends Command
         $satisFile = SatisFile::fromFile($input->getArgument('satis'));
 
         $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, $logger);
-        $reader = new BeanstalkReader($config, $beanstalkApi);
+        $reader = new BeanstalkReader($config, $beanstalkApi, $logger);
 
         $updater = new Updater($config);
         $updater->logFunction = function ($msg) {
