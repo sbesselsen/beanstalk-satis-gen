@@ -1,6 +1,8 @@
 <?php
 namespace BeanstalkSatisGen;
 
+use BeanstalkSatisGen\File\Config;
+
 class Updater
 {
     /**
