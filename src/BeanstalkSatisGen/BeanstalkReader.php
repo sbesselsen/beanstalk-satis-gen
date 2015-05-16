@@ -2,6 +2,7 @@
 namespace BeanstalkSatisGen;
 
 use BeanstalkSatisGen\Beanstalk\Api;
+use BeanstalkSatisGen\File\Composer;
 use BeanstalkSatisGen\File\Config;
 use Psr\Log\LoggerInterface;
 
@@ -125,38 +126,11 @@ class BeanstalkReader
         if (empty ($composerNode->contents)) {
             return false;
         }
-        $data = @json_decode($composerNode->contents);
-        if (!$data) {
-            return false;
-        }
-        if (empty ($data->name)) {
-            return false;
-        }
 
-        if (isset($data->type) && ! $this->isAllowableComposerType($data->type)) {
-            return false;
-        }
+        $composerFile = new Composer();
+        $composerFile->setContent($composerNode->contents);
 
-        return true;
-    }
-
-    /**
-     * Whether or not this type should be parsed
-     *
-     * @param string $type
-     *
-     * @return boolean
-     */
-    protected function isAllowableComposerType($type)
-    {
-        $allowableTypes = array(
-            'library',
-            'wordpress-plugin',
-            'symfony-bundle',
-            'drupal-module'
-        );
-
-        return in_array($type, $allowableTypes);
+        return $composerFile->isComposerPackage();
     }
 
     /**
