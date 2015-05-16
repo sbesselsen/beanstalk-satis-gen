@@ -2,8 +2,8 @@
 namespace BeanstalkSatisGen;
 
 use BeanstalkSatisGen\Beanstalk\Api;
+use BeanstalkSatisGen\File\Config;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 class ReaderException extends \RuntimeException
 {
