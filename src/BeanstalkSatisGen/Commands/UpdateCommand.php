@@ -46,7 +46,13 @@ class UpdateCommand extends Command
         $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, $logger);
         $analyser = new ChangesetAnalyser($beanstalkApi);
 
-        $searchUntil = 'fb5ff5f121c6729ac4a5b2cfcf1777c1e797da99'; // 1st page
+        $searchUntil = $config->getParsedTo();
+        if (false === $searchUntil) {
+            throw new \Exception(
+                'To update satis.json a parsed_to hash needs to be defined in the config.'
+                . ' This command will the parse beanstalk from that hash until now.'
+            );
+        }
 
         $changesetSearch = new ChangesetSearch();
         $changesetSearch->files = array('composer.json');
@@ -83,5 +89,9 @@ class UpdateCommand extends Command
         }
 
         $satisFile->saveToFile($input->getArgument('satis'));
+
+        $lastChangeset = $analyser->getLastChangeset();
+        $config->setParsedTo($lastChangeset->hash_id);
+        $config->saveToFile($input->getArgument('config'));
     }
 }

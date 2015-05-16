@@ -30,11 +30,35 @@ class Config extends Json
     public $repository_filters = [];
 
     /**
+     * Get the parsed to hash value from the config
+     */
+    public function getParsedTo()
+    {
+        if (isset($this->content->parsed_to)) {
+            return $this->content->parsed_to;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Sets the hash that has been parsed until now
+     *
+     * @param string $hash
+     */
+    public function setParsedTo($hash)
+    {
+        $this->content->parsed_to = $hash;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function loadFromFilename($filename)
     {
-        $data = $this->readFromFilename($filename);
+        parent::loadFromFilename($filename);
+
+        $data = $this->content;
         if (!isset ($data->subdomain)) {
             throw new FileNotReadableException("Config file should contain subdomain");
         }

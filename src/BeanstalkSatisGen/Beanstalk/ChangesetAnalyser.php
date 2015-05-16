@@ -57,9 +57,7 @@ class ChangesetAnalyser
         do {
             $newChangesets = $this->beanstalkApi->loadJson('changesets', array('per_page' => 30, 'page' => $page));
 
-            $newChangesets = array_map(function($changeset) {
-                return $changeset->revision_cache;
-            }, $newChangesets);
+            $newChangesets = $this->normalizeChangesets($newChangesets);
 
             $hashes = array_map(function($changeset) {
                 return $changeset->hash_id;
@@ -80,5 +78,35 @@ class ChangesetAnalyser
         } while (!$found && count($allChangesets) <= 990);
 
         return $allChangesets;
+    }
+
+    /**
+     * Removes the inception from the changesets
+     *
+     * @param array $changesets
+     *
+     * @return array
+     */
+    protected function normalizeChangesets($changesets)
+    {
+
+        $changesets = array_map(function($changeset) {
+            return $changeset->revision_cache;
+        }, $changesets);
+
+        return $changesets;
+    }
+
+    /**
+     * Returns the last changeset
+     *
+     * @return \stdClass
+     */
+    public function getLastChangeset()
+    {
+        $lastChangeset = $this->beanstalkApi->loadJson('changesets', array('per_page' => 1));
+        $lastChangeset = $this->normalizeChangesets($lastChangeset);
+
+        return $lastChangeset[0];
     }
 }
