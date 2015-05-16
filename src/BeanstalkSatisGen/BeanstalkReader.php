@@ -77,6 +77,7 @@ class BeanstalkReader
                 $this->logger->info(sprintf('%s is not a composer package repository.', $repository->name));
                 return;
             }
+            $this->logger->notice(sprintf('%s is a composer package repository.', $repository->name));
             $f($repository->repository_url);
         });
     }

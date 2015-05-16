@@ -56,10 +56,7 @@ class GenerateCommand extends Command
 
         $lastChangeset = $changesetAnalyser->getLastChangeset();
 
-        $updater = new Updater($config);
-        $updater->logFunction = function ($msg) {
-            echo $msg . "\n";
-        };
+        $updater = new Updater($config, $logger);
         $updater->updateSatisFile($satisFile, $reader);
 
         $satisFile->saveToFile($input->getArgument('satis'));

@@ -2,6 +2,7 @@
 namespace BeanstalkSatisGen;
 
 use BeanstalkSatisGen\File\Config;
+use Psr\Log\LoggerInterface;
 
 class Updater
 {
@@ -17,13 +18,20 @@ class Updater
     public $logFunction;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Create an Updater with the specified configuration
      *
      * @param Config $config
+     * @param LoggerInterface $logger
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, LoggerInterface $logger)
     {
         $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
@@ -43,20 +51,16 @@ class Updater
         $readerOptions = [
             BeanstalkReader::OPT_EXCLUDE_URLS => $repositoryURLs,
         ];
-        $reader->mapComposerPackageURLs(function ($url) use ($file) {
+        $count = 0;
+        $reader->mapComposerPackageURLs(function ($url) use ($file, &$count) {
             $file->addRawRepository((object) [
                 'type' => 'vcs',
                 'url'  => $url,
             ]);
-            $this->log("Added: {$url}");
+            $this->logger->notice(sprintf('Will add repository url "%s" to satis', $url));
+            $count++;
         }, $readerOptions);
-    }
 
-    protected function log()
-    {
-        if (isset ($this->logFunction)) {
-            $args = func_get_args();
-            call_user_func_array($this->logFunction, $args);
-        }
+        $this->logger->notice(sprintf('Added %d repository url\'s to satis', $count));
     }
 }
