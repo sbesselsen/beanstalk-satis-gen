@@ -19,7 +19,7 @@ class Updater
      *
      * @param Config $config
      */
-    function __construct(Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
@@ -30,7 +30,7 @@ class Updater
      * @param SatisFile       $file
      * @param BeanstalkReader $reader
      */
-    function updateSatisFile(SatisFile $file, BeanstalkReader $reader)
+    public function updateSatisFile(SatisFile $file, BeanstalkReader $reader)
     {
         $repositoryURLs = [];
         foreach ($file->rawRepositories() as $repository) {

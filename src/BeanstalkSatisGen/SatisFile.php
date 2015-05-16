@@ -16,7 +16,7 @@ class SatisFile
     /**
      * Create a new, empty Satis file
      */
-    function __construct()
+    public function __construct()
     {
         $this->rawData = (object) [
             'name'         => 'BeanstalkSatisGen generated file',
@@ -31,7 +31,7 @@ class SatisFile
      *
      * @param string $filename
      */
-    function saveToFile($filename)
+    public function saveToFile($filename)
     {
         $data = json_encode($this->rawData, JSON_PRETTY_PRINT);
         file_put_contents($filename, $data);
@@ -45,7 +45,7 @@ class SatisFile
      * @returns SatisFile
      * @throws FileNotReadableException
      */
-    static function fromFile($filename)
+    public static function fromFile($filename)
     {
         $file = new self();
         $file->loadFromFilename($filename);
@@ -57,7 +57,7 @@ class SatisFile
      * Get an array of repositories as stdClass objects
      * @returns array
      */
-    function rawRepositories()
+    public function rawRepositories()
     {
         return $this->rawData->repositories;
     }
@@ -69,7 +69,7 @@ class SatisFile
      *
      * @retuns SatisFile
      */
-    function setRawRepositories(array $repositories)
+    public function setRawRepositories(array $repositories)
     {
         $this->rawData->repositories = $repositories;
     }
@@ -82,7 +82,7 @@ class SatisFile
      * @returns SatisFile
      * @throws InvalidIndexException
      */
-    function addRawRepository($object)
+    public function addRawRepository($object)
     {
         $this->rawData->repositories[] = $object;
 
@@ -97,7 +97,7 @@ class SatisFile
      * @returns SatisFile
      * @throws InvalidIndexException
      */
-    function removeRepositoryAtIndex($index)
+    public function removeRepositoryAtIndex($index)
     {
         if (!isset ($this->rawData->repositories[$index])) {
             throw new InvalidIndexException("No repository at index {$index}");
