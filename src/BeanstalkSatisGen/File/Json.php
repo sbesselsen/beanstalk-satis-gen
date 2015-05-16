@@ -13,13 +13,13 @@ class Json
      *
      * @param string $path Path to the file
      *
-     * @return Json
+     * @return static
      *
      * @throws FileNotReadableException
      */
     public static function fromFile($path)
     {
-        $file = new self();
+        $file = new static();
         $file->loadFromFilename($path);
         return $file;
     }

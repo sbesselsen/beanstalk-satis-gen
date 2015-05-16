@@ -3,7 +3,7 @@ namespace BeanstalkSatisGen\File;
 
 use BeanstalkSatisGen\FileNotReadableException;
 
-class Config
+class Config extends Json
 {
     /**
      * Beanstalk subdomain, i.e. the "foo" in https://foo.beanstalkapp.com/
@@ -30,27 +30,7 @@ class Config
     public $repository_filters = [];
 
     /**
-     * Load config from a JSON file
-     *
-     * @param string $filename
-     *
-     * @returns Config
-     * @throws FileNotReadableException
-     */
-    public static function fromJSONFile($filename)
-    {
-        $config = new self;
-        $config->loadFromFilename($filename);
-
-        return $config;
-    }
-
-    /**
-     * Load data from a config file
-     *
-     * @param string $filename
-     *
-     * @throws FileNotReadableException
+     * {@inheritdoc}
      */
     protected function loadFromFilename($filename)
     {
@@ -74,32 +54,5 @@ class Config
                 throw new FileNotReadableException("If config file contains filters, filters should be an object");
             }
         }
-    }
-
-    /**
-     * Read data from a config file
-     *
-     * @param string $filename
-     *
-     * @returns \stdClass
-     * @throws FileNotReadableException
-     */
-    protected function readFromFilename($filename)
-    {
-        if (!file_exists($filename)) {
-            throw new FileNotReadableException("File {$filename} does not exist");
-        }
-        if (!is_readable($filename)) {
-            throw new FileNotReadableException("File {$filename} is not readable");
-        }
-        $data = file_get_contents($filename);
-        if (!$output = @json_decode($data)) {
-            throw new FileNotReadableException("File {$filename} does not contain valid JSON");
-        }
-        if (!is_object($output)) {
-            throw new FileNotReadableException("File {$filename} should contain a JSON object");
-        }
-
-        return $output;
     }
 }

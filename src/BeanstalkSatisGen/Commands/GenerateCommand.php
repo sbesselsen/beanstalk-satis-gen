@@ -34,7 +34,7 @@ class GenerateCommand extends Command
     {
         $logger = new ConsoleLogger($output);
 
-        $config = Config::fromJSONFile($input->getArgument('config'));
+        $config = Config::fromFile($input->getArgument('config'));
         $satisFile = SatisFile::fromFile($input->getArgument('satis'));
 
         $beanstalkApi = new Api($config->subdomain, $config->username, $config->token, $logger);
