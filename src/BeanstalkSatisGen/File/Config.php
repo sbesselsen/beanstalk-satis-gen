@@ -1,5 +1,7 @@
 <?php
-namespace BeanstalkSatisGen;
+namespace BeanstalkSatisGen\File;
+
+use BeanstalkSatisGen\FileNotReadableException;
 
 class Config
 {

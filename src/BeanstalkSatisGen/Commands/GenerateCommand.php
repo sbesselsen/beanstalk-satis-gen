@@ -4,7 +4,7 @@ namespace BeanstalkSatisGen\Commands;
 
 use BeanstalkSatisGen\Beanstalk\Api;
 use BeanstalkSatisGen\BeanstalkReader;
-use BeanstalkSatisGen\Config;
+use BeanstalkSatisGen\File\Config;
 use BeanstalkSatisGen\SatisFile;
 use BeanstalkSatisGen\Updater;
 use Symfony\Component\Console\Command\Command;
