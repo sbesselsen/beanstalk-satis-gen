@@ -1,4 +1,7 @@
 <?php
 namespace BeanstalkSatisGen;
 
-class FileNotReadableException extends \Exception {}
+class FileNotReadableException extends \Exception
+{
+
+}
