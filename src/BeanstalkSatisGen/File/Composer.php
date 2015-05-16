@@ -40,6 +40,7 @@ class Composer extends Json
         $allowableTypes = array(
             'library',
             'wordpress-plugin',
+            'wordpress-muplugin',
             'symfony-bundle',
             'drupal-module'
         );
