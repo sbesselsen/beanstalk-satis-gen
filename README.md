@@ -1,14 +1,17 @@
-# beanstalk-satis-gen
-Beanstalk Satis Generator
+# Beanstalk Satis Generator
 
 A simple tool that allows you to add repositories to a Satis JSON file by reading repositories from your Beanstalk account and adding all repositories that are Composer packages.
 
-You can use the tool by calling the included PHP classes directly, but the main use case is calling the included shell script `bin/satis-update`.
+You can use the tool by calling the included PHP classes directly, but the main use case is by building a phar and calling that.
+
+## Installation
+
+To install you can clone or download the repository and build a .phar using [box](http://box-project.org). A box config is present so using `box build` in the root of this project is enough to build the .phar. The .phar will be created in `bin/satis-update.phar`
 
 ## Usage example
 
 ```
-bin/satis-update config.json satis.json
+bin/satis-update.phar generate config.json satis.json
 ```
 
 **config.json:**
@@ -29,13 +32,36 @@ bin/satis-update config.json satis.json
 ```
 
 ### Result
-This will scan all Git repositories that the specified user can access under the specified account. If the main branch of the repository has a composer.json file in the root, and that composer.json file contains a "name" key, then a repository will be added to the satis.json:
+This will scan all Git repositories that the specified user can access under the specified account. If the main branch of the repository has a composer.json file in the root, and that composer.json file signals that it should be in satis, then the repository will be added to the satis.json:
 
 ```
 {"type": "vcs", "url": "the-repository-url"}
 ```
 
-Only repositories that weren't already present are added, so it's safe to run the script several times. Exisiting repository definitions will be left alone: the script does not delete or update them.
+Only repositories that weren't already present are added, so it's safe to run the script several times. Existing repository definitions will be left alone: the script does not delete or update them.
+
+After the generate command is done the hash of the last changeset will be safed so future parsings won't take as long. When updating an already complete satis.json the update command should be used:
+```
+bin/satis-update.phar update config.json satis.json
+```
+
+This command will read all changesets since the saved hash (parsed_to in the config.json) and parse these changes to see if a new composer.json has been added or one has been edited to include the required signals.
+
+## Package signals
+
+For a repository to end up in the satis.json the following requirements have to be met:
+
+- A `composer.json` must be present.
+- The `name` field in the composer.json must not be empty
+- The `type` field is one that absolutely implies a package or a `satis-package` key is present and true in the `extra` field, like this:
+
+    ```
+    {
+        "extra": {
+            "satis-package": true
+        }
+    }
+    ```
 
 ## Advanced usage
 
