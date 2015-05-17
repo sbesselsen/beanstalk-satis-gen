@@ -41,6 +41,7 @@ class Composer extends Json
             'library',
             'wordpress-plugin',
             'wordpress-muplugin',
+            'wordpress-theme',
             'symfony-bundle',
             'drupal-module'
         );
