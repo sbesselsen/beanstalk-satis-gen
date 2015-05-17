@@ -1,0 +1,19 @@
+{
+  "compression": "GZ",
+  "main": "index.php",
+  "directories": ["src"],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [
+        "test",
+        "tests",
+        "Tests",
+        "kherge"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "output": "bin/satis-update.phar",
+  "stub": true
+}

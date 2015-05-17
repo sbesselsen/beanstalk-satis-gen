@@ -2,3 +2,5 @@ vendor*
 
 .idea/workspace.xml
 .idea/tasks
+
+bin/satis-update.phar
