@@ -91,7 +91,10 @@ class UpdateCommand extends Command
         $satisFile->saveToFile($input->getArgument('satis'));
 
         $lastChangeset = $analyser->getLastChangeset();
-        $config->setParsedTo($lastChangeset->hash_id);
+        if (!empty($lastChangeset->hash_id)) {
+            $config->setParsedTo($lastChangeset->hash_id);
+        }
+
         $config->saveToFile($input->getArgument('config'));
     }
 }
