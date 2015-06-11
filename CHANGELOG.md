@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+### Fixed
+- Fixed a bug where parsed_to could be set to `null` in some cases
+
 ## 0.2.0
 
 ### Added
